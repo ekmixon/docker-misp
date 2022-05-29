@@ -5,7 +5,7 @@ FROM composer:1.9 as composer-build
     RUN composer install --ignore-platform-reqs && \
      composer require jumbojett/openid-connect-php --ignore-platform-reqs
 
-FROM debian:buster-slim as php-build
+FROM debian:10.12-slim as php-build
     RUN apt-get update; apt-get install -y --no-install-recommends \
         gcc \
         make \
@@ -23,7 +23,7 @@ FROM debian:buster-slim as php-build
         RUN git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git && cd php-ext-brotli && phpize && ./configure && make && make install
         
 
-FROM debian:buster-slim as python-build
+FROM debian:10.12-slim as python-build
     RUN apt-get update; apt-get install -y --no-install-recommends \
         gcc \
         git \
@@ -83,7 +83,7 @@ FROM debian:buster-slim as python-build
     RUN find . -name "Sphinx*" | grep -v "Sphinx-1.8.5" | xargs rm -f
 
 
-FROM debian:buster-slim
+FROM debian:10.12-slim
 ENV DEBIAN_FRONTEND noninteractive
 ARG MISP_TAG
 ARG PHP_VER
